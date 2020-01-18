@@ -1,6 +1,6 @@
 ### Denoising Documents
 #### thresh base
-(to see step by step algorithm results, read [description pdf][https://github.com/ZeinabTaghavi/Denoising_Printed_Documents_Threshbase/blob/master/description.pdf])
+(to see step by step algorithm results, read [description pdf](https://github.com/ZeinabTaghavi/Denoising_Printed_Documents_Threshbase/blob/master/description.pdf)
 metho = contours, pixel density
 
 avg of time = 3.108232495
