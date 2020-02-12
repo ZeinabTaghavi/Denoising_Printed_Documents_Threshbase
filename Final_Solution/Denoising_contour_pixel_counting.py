@@ -52,11 +52,11 @@ def correct_rotation(img,max_word_height):# max_word_height = 140
     return img
 
 
-def move_images(img, img_source , borders , image_shape): # borders = [top, right, down, left] image_shape = [min_w, min_h]
+def move_images(img, img_source , borders , image_shape , dilation): # borders = [top, right, down, left] image_shape = [min_w, min_h]
     
     img_source_gray = cv2.cvtColor(img_source, cv2.COLOR_BGR2GRAY)
     output_base_image = cv2.bitwise_not(img_source_gray)
-    output_base_image = cv2.dilate(output_base_image ,kernel=np.ones((5,5), np.uint8), iterations=1)
+    output_base_image = cv2.dilate(output_base_image ,kernel=np.ones(dilation, np.uint8), iterations=1)
     contours, _ = cv2.findContours(output_base_image, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
     # the image or words must be between 10% and 90% of main image
@@ -200,7 +200,7 @@ if __name__ =='__main__':
     max_word_height = 190  # max height of line
     borders = [0, 250, 350, 200] # borders = [top, right, down, left]
     image_dir = './'
-    for i in range(1,13):
+    for i in range(1,2):
         e1 = cv2.getTickCount()
         file_name = image_dir+'/'+'image'+str(i)+'.tif'
         img_source = cv2.imread(file_name)
@@ -244,8 +244,9 @@ if __name__ =='__main__':
         cv2.imwrite(file_name + '-2-removed_wasted_round_area_pattern.jpg', pattern)
         cv2.imwrite(file_name + '-2-removed_wasted_round_area_img.jpg', removed_wasted_round_area)
 
-        image_shape = [500,500]
-        returned_images_img = move_images(removed_wasted_round_area , img_source, borders, image_shape)
+        image_shape = [330,30]
+        dilation = (20,20)
+        returned_images_img = move_images(removed_wasted_round_area , img_source, borders, image_shape,dilation)
         cv2.imwrite(file_name + '-5-returned_images.jpg', returned_images_img)
 
         corrected_rotation = correct_rotation(returned_images_img, max_word_height)
